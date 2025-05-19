@@ -28,6 +28,14 @@ public class ItemManager : MonoBehaviour
                         if (Input.GetMouseButtonDown(0))
                         {
                             playerItems.HoldItem(itemName);
+                            if (itemName == "Coffee")
+                            {
+                                playerItems.coffeeCup.SetActive(false);
+                            }
+                            if (itemName == "Tea")
+                            {
+                                playerItems.teaCup.SetActive(false);
+                            }
                         }
                     }
 

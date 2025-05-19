@@ -60,12 +60,13 @@ public class PouringManager : MonoBehaviour
         playerItems.emptyCupOnCounter = false;
         playerItems.coffeeCup.SetActive(true);
         playerItems.canHoldMore = true;
+        playerItems.cupboardInteraction.SetActive(true);
     }
 
     IEnumerator pourTea()
     {
         Debug.Log("Pouring Tea");
-        mochaAnim.Play("pourtea");
+        teaAnim.Play("pourtea");
         yield return new WaitForSeconds(2.5f);
         Debug.Log("Teaa Poured");
         playerItems.emptyCup.SetActive(false);
@@ -75,6 +76,7 @@ public class PouringManager : MonoBehaviour
         playerItems.emptyCupOnCounter = false;
         playerItems.teaCup.SetActive(true);
         playerItems.canHoldMore = true;
+        playerItems.cupboardInteraction.SetActive(true);
     }
 
 

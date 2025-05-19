@@ -86,7 +86,7 @@ public class PlayerItems : MonoBehaviour
             if (emptyCupOnCounter && canHoldMore)
             {
                 holdingMochaPot = true;
-
+                canHoldMore = false;
                 MochaPot.SetActive(false);
                 Debug.Log("Mocha:" + holdingMochaPot);
                 Debug.Log("EmptyCup: " + emptyCupOnCounter);
@@ -117,9 +117,16 @@ public class PlayerItems : MonoBehaviour
 
         if (itemName == "CupEmpty" && canHoldMore)
         {
+            Debug.Log("CanHoldMore:" + canHoldMore);
             holdingEmptyCup = true;
             Debug.Log("Holding Empty Cup: " + holdingEmptyCup);
             canHoldMore = false;
+        }
+
+        if (itemName == "CupEmpty" && currentItem.name == "CupEmpty")
+        {
+            HoldingNone();
+            return;
         }
 
         // Handle plate logic
