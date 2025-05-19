@@ -95,6 +95,7 @@ public class PlayerItems : MonoBehaviour
             {
                 prompt.gameObject.SetActive(true);
                 prompt.text = "I should place an empty cup on the counter first.";
+                return;
             }
         }
 

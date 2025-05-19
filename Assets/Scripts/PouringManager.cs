@@ -29,21 +29,14 @@ public class PouringManager : MonoBehaviour
                         {
                             Debug.Log("Pouring");
                             if (playerItems.emptyCupOnCounter && playerItems.holdingMochaPot) {
-                                Debug.Log("Pouring Mocha");
-                                pourMocha();
+                                StartCoroutine(pourMocha());
                                 return;
                             }
                             if (playerItems.emptyCupOnCounter && playerItems.holdingTeaPot)
                             {
-                                teaAnim.Play("pourtea");
-                                playerItems.holdingTeaPot = false;
-                                playerItems.TeaPot.SetActive(true);
-                                playerItems.emptyCupOnCounter = false;
-                                playerItems.teaCup.SetActive(true);
-                                playerItems.canHoldMore = true;
+                                StartCoroutine(pourTea());
                                 return;
                             }
-                            playerItems.HoldItem(itemName);
                         }
                     }
 
@@ -56,12 +49,31 @@ public class PouringManager : MonoBehaviour
 
     IEnumerator pourMocha()
     {
+        Debug.Log("Pouring Mocha");
         mochaAnim.Play("pourmocha");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2.5f);
+        Debug.Log("Mocha Poured");
+        playerItems.emptyCup.SetActive(false);
+        playerItems.HoldingNone();
         playerItems.holdingMochaPot = false;
         playerItems.MochaPot.SetActive(true);
         playerItems.emptyCupOnCounter = false;
         playerItems.coffeeCup.SetActive(true);
+        playerItems.canHoldMore = true;
+    }
+
+    IEnumerator pourTea()
+    {
+        Debug.Log("Pouring Tea");
+        mochaAnim.Play("pourtea");
+        yield return new WaitForSeconds(2.5f);
+        Debug.Log("Teaa Poured");
+        playerItems.emptyCup.SetActive(false);
+        playerItems.HoldingNone();
+        playerItems.holdingTeaPot = false;
+        playerItems.TeaPot.SetActive(true);
+        playerItems.emptyCupOnCounter = false;
+        playerItems.teaCup.SetActive(true);
         playerItems.canHoldMore = true;
     }
 
