@@ -5,10 +5,9 @@ using UnityEngine.Rendering;
 
 public class ItemManager : MonoBehaviour
 {
-    public bool open;
     public Transform Player;
     public string itemName;
-    private PlayerItems playerItems;
+    public PlayerItems playerItems;
 
     void Start()
     {
@@ -27,7 +26,7 @@ public class ItemManager : MonoBehaviour
                     {
                         if (Input.GetMouseButtonDown(0))
                         {
-                            playerItems.holdItem(itemName);
+                            playerItems.HoldItem(itemName);
                         }
                     }
 

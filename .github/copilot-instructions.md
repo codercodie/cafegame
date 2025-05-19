@@ -4,11 +4,11 @@
 - Active scene:
   - Name: DayScene
   - Tags:
-    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Fluid, Food
+    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Fluid, Food, Drink
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Water, UI
 - Active game object:
-  - Name: BA_First Person Player
-  - Tag: Player
+  - Name: Tray
+  - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
