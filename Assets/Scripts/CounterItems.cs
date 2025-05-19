@@ -102,6 +102,7 @@ public class CounterItems : MonoBehaviour
                         return;
                     }
                     drinkPlaced = true;
+                    playerItems.cupEmptyTrigger.SetActive(true);
                     return;
                 }
             }

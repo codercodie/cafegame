@@ -11,7 +11,7 @@ public class PlayerItems : MonoBehaviour
     public bool holdingPlate;
     public bool canHoldMore;
     public bool holdingMochaPot, holdingTeaPot, holdingEmptyCup;
-    public GameObject MochaPot, TeaPot, emptyCup, teaCup, coffeeCup, cupboardInteraction;
+    public GameObject MochaPot, TeaPot, emptyCup, teaCup, coffeeCup, cupboardInteraction, cupEmptyTrigger;
     public bool emptyCupOnCounter;
 
     // Start is called before the first frame update
@@ -121,12 +121,7 @@ public class PlayerItems : MonoBehaviour
             holdingEmptyCup = true;
             Debug.Log("Holding Empty Cup: " + holdingEmptyCup);
             canHoldMore = false;
-        }
-
-        if (itemName == "CupEmpty" && currentItem.name == "CupEmpty")
-        {
-            HoldingNone();
-            return;
+            cupEmptyTrigger.SetActive(false);
         }
 
         // Handle plate logic
