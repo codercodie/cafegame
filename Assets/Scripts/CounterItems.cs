@@ -11,6 +11,7 @@ public class CounterItems : MonoBehaviour
     public GameObject plate;
     public PlayerItems playerItems;
     public TextMeshProUGUI prompt;
+    public bool foodPlaced, drinkPlaced;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,8 @@ public class CounterItems : MonoBehaviour
         }
         plate.SetActive(false);
         prompt.gameObject.SetActive(false);
+        foodPlaced = false;
+        drinkPlaced = false;
 
     }
 
@@ -57,6 +60,12 @@ public class CounterItems : MonoBehaviour
             prompt.text = "I should probably put a food item on the plate before giving it to the customer";
             return;
         }
+        if (playerItems.currentItem.name == "CupEmpty")
+        {
+            prompt.gameObject.SetActive(true);
+            prompt.text = "I should probably fill the cup before giving it to the customer";
+            return;
+        }
         PlaceItemByName(playerItems.currentItem.name);
         playerItems.HoldingNone();
     }
@@ -68,14 +77,40 @@ public class CounterItems : MonoBehaviour
             if (item.name == name)
             {
                 item.SetActive(true);
-                if (item.tag == "Food" && item.name != "Croissant")
+                if (item.tag == "Food")
                 {
-                   plate.SetActive(true);
-                } 
+                    if (foodPlaced)
+                    {
+                        prompt.gameObject.SetActive(true);
+                        prompt.text = "There is no space to put any more food on this tray.";
+                        return;
+                    }
+                    if (item.name != "Croissant")
+                    {
+                        plate.SetActive(true);
+                        return;
+                    }
+                    foodPlaced = true;
+                    return;
+                }
+                if (item.tag == "Drink")
+                {
+                    if (drinkPlaced)
+                    {
+                        prompt.gameObject.SetActive(true);
+                        prompt.text = "There is no space to put any more drinks on this tray.";
+                        return;
+                    }
+                    drinkPlaced = true;
+                    return;
+                }
             }
         }
+
         Debug.Log("Item " + name + " is not found");
 
     }
+
+
 
 }

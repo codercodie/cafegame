@@ -24,6 +24,7 @@ public class ItemManager : MonoBehaviour
                 {
                     if (Player)
                     {
+                        
                         if (Input.GetMouseButtonDown(0))
                         {
                             playerItems.HoldItem(itemName);

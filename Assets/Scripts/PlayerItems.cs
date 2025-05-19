@@ -7,16 +7,26 @@ public class PlayerItems : MonoBehaviour
 {
     public List<GameObject> items;
     public GameObject currentItem;
-    public TextMeshProUGUI platePrompt;
+    public TextMeshProUGUI prompt;
     public bool holdingPlate;
     public bool canHoldMore;
+    public bool holdingMochaPot, holdingTeaPot, holdingEmptyCup;
+    public GameObject MochaPot, TeaPot, emptyCup, teaCup, coffeeCup, cupboardInteraction;
+    public bool emptyCupOnCounter;
 
     // Start is called before the first frame update
     void Start()
     {
         // Set all to inactive as player is not holding any items yet
-        platePrompt.gameObject.SetActive(false);
+        prompt.gameObject.SetActive(false);
         HoldingNone();
+        emptyCupOnCounter = false;
+        holdingEmptyCup = false;
+        holdingMochaPot = false;
+        holdingTeaPot = false;
+        emptyCup.SetActive(false);
+        teaCup.SetActive(false);
+        coffeeCup.SetActive(false);
     }
 
     public void HoldingNone()
@@ -25,6 +35,8 @@ public class PlayerItems : MonoBehaviour
         {
             item.SetActive(false);
             holdingPlate = false;
+            holdingMochaPot = false;
+            holdingTeaPot = false;
             canHoldMore = true;
         }
     }
@@ -42,15 +54,71 @@ public class PlayerItems : MonoBehaviour
         return null;
     }
 
+    public void EmptyCupPlaced()
+    {
+        emptyCup.SetActive(true);
+        emptyCupOnCounter = true;
+        holdingEmptyCup = false;
+        cupboardInteraction.SetActive(false);
+        HoldingNone();
+    }
+
     public void HoldItem(string itemName)
     {
         Debug.Log("Attempting to hold: " + itemName);
+        if (itemName == "CupboardInteraction" && holdingEmptyCup)
+        {
+            EmptyCupPlaced();
+
+            return;
+        }
+
         GameObject item = GetItemByName(itemName);
 
         if (item == null)
         {
             Debug.LogWarning("Item not found: " + itemName);
             return;
+        }
+
+        if (itemName == "MochaPot")
+        {
+            if (emptyCupOnCounter && canHoldMore)
+            {
+                holdingMochaPot = true;
+
+                MochaPot.SetActive(false);
+                Debug.Log("Mocha:" + holdingMochaPot);
+                Debug.Log("EmptyCup: " + emptyCupOnCounter);
+            }
+            else
+            {
+                prompt.gameObject.SetActive(true);
+                prompt.text = "I should place an empty cup on the counter first.";
+            }
+        }
+
+        if (itemName == "TeaPot")
+        {
+            if (emptyCupOnCounter && canHoldMore)
+            {
+                holdingTeaPot = true;
+                canHoldMore = false;
+                TeaPot.SetActive(false);
+            }
+            else
+            {
+                prompt.gameObject.SetActive(true);
+                prompt.text = "I should place an empty cup on the counter first.";
+                return;
+            }
+        }
+
+        if (itemName == "CupEmpty" && canHoldMore)
+        {
+            holdingEmptyCup = true;
+            Debug.Log("Holding Empty Cup: " + holdingEmptyCup);
+            canHoldMore = false;
         }
 
         // Handle plate logic
@@ -86,6 +154,7 @@ public class PlayerItems : MonoBehaviour
                     canHoldMore = false;
                 }
             }
+
         }
 
         // Activate and set the item as the current held item
@@ -98,8 +167,9 @@ public class PlayerItems : MonoBehaviour
 
     IEnumerator ShowPlatePrompt()
     {
-        platePrompt.gameObject.SetActive(true);
+        prompt.gameObject.SetActive(true);
+        prompt.text = "I should probbaly get a plate before handling food";
         yield return new WaitForSeconds(2.5f);
-        platePrompt.gameObject.SetActive(false);
+        prompt.gameObject.SetActive(false);
     }
 }
